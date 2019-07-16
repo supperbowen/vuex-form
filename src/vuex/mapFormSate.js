@@ -17,8 +17,8 @@
  */
 
 import { each, isArray, isPlainObject, isUndefined, isString } from '../utils'
-
-let store = {}
+import * as Store from './store'
+// let store = {}
 
 function normalizeNamespace(namespace) {
   if (typeof namespace !== 'string') {
@@ -153,6 +153,7 @@ export function mapFormStates(namespace, states) {
 
 export default {
   install($store) {
-    store = $store
+    // store = $store
+    Store.setStore($store)
   }
 }
