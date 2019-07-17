@@ -16,7 +16,8 @@
  * mapFormStates('order', [{name:'customer.name', gender:'customer.gender'}])
  */
 
-import { each, isArray, isPlainObject, isUndefined, isString } from '../utils'
+import _ from '../utils'
+// { each, isArray, isPlainObject, isUndefined, isString }
 import * as Store from './store'
 // let store = {}
 
@@ -39,7 +40,7 @@ function resolveState(namespace, keys = []) {
   const storeState = namespace ? store.state[namespace] : store.state
   let result = storeState
   for (let key of keys) {
-    if (isUndefined(storeState[key])) return
+    if (_.isUndefined(storeState[key])) return
     result = storeState[key]
   }
   return result
@@ -55,7 +56,7 @@ export function mapState(namespace, state, prefixs) {
   return {
     get() {
       const stateVal = resolveState(store, namespace, prefixs)
-      if (isArray(stateVal) || isPlainObject(stateVal)) {
+      if (_.isArray(stateVal) || _.isPlainObject(stateVal)) {
         return stateVal[state]
       }
     },
@@ -103,15 +104,15 @@ function mapFormStateObject(namespace, state) {
 
   // 解释获取被转换的 state 对象
   const prefixs = state.split('.')
-  const state = resolveState(namespace, prefixs)
-  if (isUndefined(state)) {
-    console.warn('[mapFormStates]: state is undefined!\t', namespace, '\t', state)
+  const stateValue = resolveState(namespace, prefixs)
+  if (_.isUndefined(stateValue)) {
+    console.warn('[mapFormStates]: state is undefined!\t', namespace, '\t', stateValue)
     return {}
   }
 
   // 解释 state 对象为computed
   const result = {}
-  each(state, (stateVal, subState, props) => {
+  _.each(stateValue, (stateVal, subState, props) => {
     const propName = `${computed_prefix}_${props.join('_')}_${subStatesubState}`
     result[propName] = mapState(namespace, subState, [...prefixs, ...props])
   })
@@ -120,12 +121,12 @@ function mapFormStateObject(namespace, state) {
 
 /**
  *
- * @param {*} module
+ * @param {*} namespace
  * @param {*} states
  */
 export function mapFormStates(namespace, states) {
-  states = isArray(namespace) ? namespace : states
-  if (isArray(namespace)) {
+  states = _.isArray(namespace) ? namespace : states
+  if (_.isArray(namespace)) {
     states = namespace
     namespace = ''
   }
@@ -140,9 +141,9 @@ export function mapFormStates(namespace, states) {
   const result = {}
   // 把 states 映射成 computed
   for (let state of states) {
-    if (isString(state)) {
+    if (_.isString(state)) {
       result = { ...result, ...mapFormStateObject(namespace, state) }
-    } else if (isPlainObject(state)) {
+    } else if (_.isPlainObject(state)) {
       result = { ...result, ...mapFormKeys(namespace, state) }
     } else {
       console.warn('[mapFormStates]:state should be an object or string=>', state)
