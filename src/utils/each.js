@@ -4,8 +4,8 @@ import isPlainObject from './isPlainObject'
 function eachObject(obj, handler, prefixs) {
   for (let key in obj) {
     const subProp = obj[key]
-    if (isPlainObject(obj)) {
-      each(subProp, handler, [...prefixs, key])
+    if (isPlainObject(subProp)) {
+      eachObject(subProp, handler, [...prefixs, key])
     } else {
       handler(subProp, key, prefixs) // prop, key, prefixs
     }

@@ -11,9 +11,10 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'vuexform.js',
-    library: 'vuexform',
-    libraryExport: 'default',
-    libraryTarget: 'commonjs-module'
+    // library: 'vuexform',
+    // libraryExport: 'default',
+    libraryTarget: 'umd',
+    umdNamedDefine: true
   },
   resolve: {
     extensions: ['.js', '.json'],

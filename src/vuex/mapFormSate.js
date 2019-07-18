@@ -17,9 +17,7 @@
  */
 
 import _ from '../utils'
-// { each, isArray, isPlainObject, isUndefined, isString }
-import * as Store from './store'
-// let store = {}
+import { resolveState, setStore, commit } from './store'
 
 function normalizeNamespace(namespace) {
   if (typeof namespace !== 'string') {
@@ -31,22 +29,6 @@ function normalizeNamespace(namespace) {
 }
 
 /**
- * resolve store state value
- * @param {*} store vuex store
- * @param {*} namespace store module
- * @param {*} keys state properties
- */
-function resolveState(namespace, keys = []) {
-  const storeState = namespace ? store.state[namespace] : store.state
-  let result = storeState
-  for (let key of keys) {
-    if (_.isUndefined(storeState[key])) return
-    result = storeState[key]
-  }
-  return result
-}
-
-/**
  * map state as computed object
  * @param {*} namespace store module
  * @param {*} state store state
@@ -55,13 +37,13 @@ function resolveState(namespace, keys = []) {
 export function mapState(namespace, state, prefixs) {
   return {
     get() {
-      const stateVal = resolveState(store, namespace, prefixs)
+      const stateVal = resolveState(namespace, prefixs)
       if (_.isArray(stateVal) || _.isPlainObject(stateVal)) {
         return stateVal[state]
       }
     },
     set(val) {
-      store.commit(namespace + 'updateState', { prefixs, state, val })
+      commit(normalizeNamespace(namespace) + 'updateState', { prefixs, state, val })
     }
   }
 }
@@ -73,24 +55,16 @@ export function mapState(namespace, state, prefixs) {
  */
 function mapFormKeys(namespace, mapper) {
   const result = {}
-  for (let key in mapper) {
-    const keys = key.split('.')
-    result[key] = {
-      get() {
-        return resolveState(namespace, keys)
-      },
-      set(val) {
-        const length = keys.length
-        const state = keys[length - 1]
-        const prefixs = keys.slice(0, -1)
-        store.commit(namespace + 'updateState', { prefixs, state, val })
-      }
-    }
+  for (const key in mapper) {
+    const props = mapper[key].split('.')
+    const state = props.pop()
+    result[key] = mapState(namespace, state, props)
   }
+  return result
 }
 
 /**
- *
+ * map object properties as computed
  * @param {*} namespace store module
  * @param {String} state state name  'current', 'c:current'==>c_name,'cu:current.customer'==>cu_name, cu_age
  * @param {*} computed_prefix
@@ -113,7 +87,8 @@ function mapFormStateObject(namespace, state) {
   // 解释 state 对象为computed
   const result = {}
   _.each(stateValue, (stateVal, subState, props) => {
-    const propName = `${computed_prefix}_${props.join('_')}_${subStatesubState}`
+    const postfix = str => (str ? str + '_' : '')
+    const propName = `${postfix(computed_prefix)}${postfix(props.join('_'))}${subState}`
     result[propName] = mapState(namespace, subState, [...prefixs, ...props])
   })
   return result
@@ -131,14 +106,12 @@ export function mapFormStates(namespace, states) {
     namespace = ''
   }
 
-  namespace = normalizeNamespace(namespace)
-
   if (!states) {
     console.warn('[mapFormStates]:states should be a not empty Array!')
     return
   }
 
-  const result = {}
+  let result = {}
   // 把 states 映射成 computed
   for (let state of states) {
     if (_.isString(state)) {
@@ -152,9 +125,6 @@ export function mapFormStates(namespace, states) {
   return result
 }
 
-export default {
-  install($store) {
-    // store = $store
-    Store.setStore($store)
-  }
+export function install($store) {
+  setStore($store)
 }

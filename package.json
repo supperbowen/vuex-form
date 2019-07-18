@@ -24,7 +24,7 @@
     "core-js": "^3.1.4"
   },
   "scripts": {
-    "test": "npm test",
+    "test": "jest --color --coverage",
     "build": "webpack --progress --color"
   },
   "repository": {
