@@ -15,7 +15,7 @@
     "webpack-cli": "3.1.0",
     "webpack-merge": "4.1.4"
   },
-  "name": "vuex-from",
+  "name": "@supperbowen/vuexfrom",
   "description": "vuex state form map helper",
   "version": "1.0.0",
   "main": "./dist/vuexform.js",
