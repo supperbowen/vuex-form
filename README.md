@@ -36,12 +36,18 @@ export default {
 
 ## vuex from 解决方案：
 
+### 安装
+
+```sh
+npm install --save vuexfrom
+```
+
 ### 代码设置
 
 #### main.js
 
 ```js
-import vuexform from '@supperbowen/vuexfrom'
+import vuexform from 'vuexfrom'
 import store from '@/store'
 
 vuexform.install(store)
@@ -50,7 +56,7 @@ vuexform.install(store)
 #### vuex store module 'customer.js'
 
 ```js
-import {updateState} from '@supperbowen/vuexfrom'
+import {updateState} from 'vuexfrom'
 
 export default {
     namespaced:true,
@@ -69,8 +75,6 @@ export default {
 ###  一般映射
 
 ```html
-import {mapFormStates} from '@supperbowen/vuexfrom'
-
 <template>
     <div>
         <input v-model="name">
@@ -79,6 +83,7 @@ import {mapFormStates} from '@supperbowen/vuexfrom'
 </template>
 
 <script>
+import {mapFormStates} from 'vuexfrom'
 export default {
     computed:{
         ...mapFormStates('customer', ['current'])        
@@ -100,7 +105,7 @@ export default {
 </template>
 
 <script>
-import {mapFormStates} from '@supperbowen/vuexfrom'
+import {mapFormStates} from 'vuexfrom'
 export default {
     computed:{
         ...mapFormStates('customer', ['cu:current'])
@@ -124,7 +129,7 @@ export default {
 </template>
 
 <script>
-import {mapFormStates} from '@supperbowen/vuexfrom'
+import {mapFormStates} from 'vuexfrom'
 export default {
     computed:{
         ...mapFormStates('customer', [{cname:'current.name', cage:'current.age'}])
