@@ -1,4 +1,5 @@
 {
+  "name": "vuexform",
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
@@ -14,9 +15,8 @@
     "webpack-cli": "3.1.0",
     "webpack-merge": "4.1.4"
   },
-  "name": "vuexfrom",
   "description": "vuex state form map helper",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "main": "./dist/vuexform.js",
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
