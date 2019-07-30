@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapFormStates } from 'vuexfrom'
+import { mapFormStates } from 'vuexfrom';
 export default {
   name: 'HelloWorld',
   props: {
