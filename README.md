@@ -136,4 +136,25 @@ export default {
     }
 }
 </script>
+`
+
+### 已知问题
+
+1. 必需要使用异步组件，否则在映射对象是会存在store还没有初始化的问题
+
+```js
+// 组件中
+export default {
+  name: 'app',
+  components: {
+    HelloForm: () => import('./components/Form.vue')  // 需要用异步加载的组件，包括在 vue-router 时
+  }
+};
+
+// 路由
+{
+    path: 'form',
+    component: () => import('./components/Form.vue'),
+    name: 'HelloForm'
+}
 ```
