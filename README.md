@@ -47,7 +47,7 @@ npm install --save vuexfrom
 #### main.js
 
 ```js
-import vuexform from 'vuexform'
+import vuexform from '@supper/vuexform'
 import store from '@/store'
 
 vuexform.install(store)
@@ -56,7 +56,7 @@ vuexform.install(store)
 #### vuex store module 'customer.js'
 
 ```js
-import {updateState} from 'vuexform'
+import {updateState} from '@supper/vuexform'
 
 export default {
     namespaced:true,
@@ -83,7 +83,7 @@ export default {
 </template>
 
 <script>
-import {mapFormStates} from 'vuexform'
+import {mapFormStates} from '@supper/vuexform'
 export default {
     computed:{
         ...mapFormStates('customer', ['current'])        
@@ -105,7 +105,7 @@ export default {
 </template>
 
 <script>
-import {mapFormStates} from 'vuexform'
+import {mapFormStates} from '@supper/vuexform'
 export default {
     computed:{
         ...mapFormStates('customer', ['cu:current'])
@@ -129,7 +129,7 @@ export default {
 </template>
 
 <script>
-import {mapFormStates} from 'vuexform'
+import {mapFormStates} from '@supper/vuexform'
 export default {
     computed:{
         ...mapFormStates('customer', [{cname:'current.name', cage:'current.age'}])

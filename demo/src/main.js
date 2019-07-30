@@ -2,7 +2,7 @@ import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import store from './store/index'
-import vuexform from 'vuexfrom'
+import vuexform from '@supper/vuexfrom'
 import App from './App.vue'
 
 vuexform.install(store)

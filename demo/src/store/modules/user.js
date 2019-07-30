@@ -1,4 +1,4 @@
-import { updateState } from 'vuexfrom'
+import { updateState } from '@supper/vuexfrom'
 export default {
   namespaced: true,
   state: {
