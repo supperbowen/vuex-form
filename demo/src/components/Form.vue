@@ -12,20 +12,18 @@
 </template>
 
 <script>
-import { mapFormStates } from "vuexfrom";
-// console.log("mapFormStates", mapFormStates("user", ["user:current"]));
+import { mapFormStates } from 'vuexfrom'
 export default {
-  name: "HelloWorld",
+  name: 'HelloWorld',
   props: {
     msg: String
   },
   computed: {
-    // ...mapFormStates("user", ["user:current"])
+    ...mapFormStates('user', ['user:current'])
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
   margin: 40px 0 0;

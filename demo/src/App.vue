@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <HelloForm />
+    <div>
+      <HelloForm />
+    </div>
   </div>
 </template>
 
 <script>
-import HelloForm from "./components/Form.vue";
-
 export default {
-  name: "app",
+  name: 'app',
   components: {
-    HelloForm
+    HelloForm: () => import('./components/Form.vue')  // 需要用异步加载的组件，包括在 vue-router 时
   }
 };
 </script>

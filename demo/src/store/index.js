@@ -1,8 +1,8 @@
-import Vuex from "vuex";
-import Vue from "vue";
-import user from "./modules/user";
+import Vuex from 'vuex'
+import Vue from 'vue'
+import user from './modules/user'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: { user },
@@ -11,7 +11,7 @@ export default new Vuex.Store({
   },
   mutations: {
     increment(state) {
-      state.count++;
+      state.count++
     }
   }
-});
+})
