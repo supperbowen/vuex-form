@@ -158,3 +158,8 @@ export default {
     name: 'HelloForm'
 }
 ```
+
+
+### 计划
+
+1. 添加验证支持
