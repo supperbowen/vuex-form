@@ -95,11 +95,11 @@ function mapFormStateObject(namespace, state) {
 }
 
 /**
- *
+ * 对外暴露的映射方法
  * @param {*} namespace
  * @param {*} states
  */
-export function mapFormStates(namespace, states) {
+export function mapStates(namespace, states) {
   states = _.isArray(namespace) ? namespace : states
   if (_.isArray(namespace)) {
     states = namespace
@@ -111,20 +111,53 @@ export function mapFormStates(namespace, states) {
     return
   }
 
-  let result = {}
+  const validStates = []
   // 把 states 映射成 computed
   for (let state of states) {
-    if (_.isString(state)) {
-      result = { ...result, ...mapFormStateObject(namespace, state) }
-    } else if (_.isPlainObject(state)) {
-      result = { ...result, ...mapFormKeys(namespace, state) }
+    if (_.isString(state) || _.isPlainObject(state)) {
+      validStates.push({ namespace, computed: state })
     } else {
       console.warn('[mapFormStates]:state should be an object or string=>', state)
     }
   }
-  return result
+
+  return {
+    $mapFormStateObject() {
+      return validStates
+    }
+  }
 }
 
-export function install($store) {
-  setStore($store)
+/**
+ * 把 $mapFormStateObject 声明转换成 computeds
+ * @param {vue} vueInstance VUE 实例
+ */
+function updateComputedsOnCreate(vueInstance, options) {
+  const computed = vueInstance.$options.computed || {}
+  const states = computed.$mapFormStateObject && computed.$mapFormStateObject()
+  if (!states) return {}
+
+  setStore(vueInstance.$store)
+  let storeComputeds = {}
+  for (const state of states) {
+    if (_.isString(state.computed)) {
+      storeComputeds = { ...storeComputeds, ...mapFormStateObject(state.namespace, state.computed) }
+    } else if (_.isPlainObject(state.computed)) {
+      storeComputeds = { ...storeComputeds, ...mapFormKeys(state.namespace, state.computed) }
+    }
+  }
+
+  vueInstance.$delete(computed, '$mapFormStateObject')
+  vueInstance.$options.computed = { ...computed, ...storeComputeds }
+}
+
+/**
+ * 作为 vue 插件引入
+ */
+export function installAsPlugin(Vue, options) {
+  Vue.mixin({
+    beforeCreate() {
+      updateComputedsOnCreate(this, options)
+    }
+  })
 }

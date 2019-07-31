@@ -1,6 +1,6 @@
 import formStore from '../src/index.js'
 
-let { mapFormStates, updateState } = formStore
+let { mapStates, updateState } = formStore
 
 const store = (states = {}) => ({
   namespace: 'order',
@@ -33,36 +33,36 @@ const Store = (states = {}) => {
 let $store = {}
 
 describe('test default mapper', () => {
-  beforeEach(() => {
-    mapFormStates = mapFormStates.bind({ $store, store })
-  })
+  // beforeEach(() => {
+  //   mapFormStates = mapFormStates.bind({ $store, store })
+  // })
 
-  test("mapFormStates('order', ['current'])", () => {
+  test("mapStates('order', ['current'])", () => {
     formStore.install(Store())
-    const result = mapFormStates('order', ['current'])
+    const result = mapStates('order', ['current'])
     expect(result.name.get()).toBe('bowen')
     expect(result.age.get()).toBe(18)
   })
 
-  test("commit:mapFormStates('order', ['current'])", () => {
+  test("commit:mapStates('order', ['current'])", () => {
     formStore.install(Store())
-    const result = mapFormStates('order', ['current'])
+    const result = mapStates('order', ['current'])
     result.name.set('supperbowen')
     result.age.set(19)
     expect(result.name.get()).toBe('supperbowen')
     expect(result.age.get()).toBe(19)
   })
 
-  test("mapFormStates('order', ['c:current'])", () => {
+  test("mapStates('order', ['c:current'])", () => {
     formStore.install(Store())
-    const result = mapFormStates('order', ['c:current'])
+    const result = mapStates('order', ['c:current'])
     expect(result.c_name.get()).toBe('bowen')
     expect(result.c_age.get()).toBe(18)
   })
 
-  test("commit:mapFormStates('order', ['c:current'])", () => {
+  test("commit:mapStates('order', ['c:current'])", () => {
     formStore.install(Store())
-    const result = mapFormStates('order', ['c:current'])
+    const result = mapStates('order', ['c:current'])
     result.c_name.set('supperbowen')
     result.c_age.set(22)
     expect(result.c_name.get()).toBe('supperbowen')
@@ -70,41 +70,41 @@ describe('test default mapper', () => {
   })
 
 
-  test("mapFormStates('order', [{name:'current.name', gender:'current.gender'])", () => {
+  test("mapStates('order', [{name:'current.name', gender:'current.gender'])", () => {
     formStore.install(Store())
-    const result = mapFormStates('order', [{ name: 'current.name', gender: 'current.gender' }])
+    const result = mapStates('order', [{ name: 'current.name', gender: 'current.gender' }])
     expect(result.name.get()).toBe('bowen')
     expect(result.gender.get()).toBe('male')
   })
 
-  test("commit:mapFormStates('order', [{name:'current.name', gender:'current.gender'])", () => {
+  test("commit:mapStates('order', [{name:'current.name', gender:'current.gender'])", () => {
     formStore.install(Store())
-    const result = mapFormStates('order', [{ name: 'current.name', gender: 'current.gender' }])
+    const result = mapStates('order', [{ name: 'current.name', gender: 'current.gender' }])
     result.name.set('supperbowen')
     result.gender.set('femal')
     expect(result.name.get()).toBe('supperbowen')
     expect(result.gender.get()).toBe('femal')
   })
 
-  test("mapFormStates('order', ['cust:current.customer'])", () => {
+  test("mapStates('order', ['cust:current.customer'])", () => {
     formStore.install(Store({ customer: { name: 'allen', age: 22 } }))
-    const result = mapFormStates('order', ['cust:current.customer'])
+    const result = mapStates('order', ['cust:current.customer'])
     expect(result.cust_name.get()).toBe('allen')
     expect(result.cust_age.get()).toBe(22)
   })
 
-  test("commit:mapFormStates('order', ['cust:current.customer'])", () => {
+  test("commit:mapStates('order', ['cust:current.customer'])", () => {
     formStore.install(Store({ customer: { name: 'allen', age: 22 } }))
-    const result = mapFormStates('order', ['cust:current.customer'])
+    const result = mapStates('order', ['cust:current.customer'])
     result.cust_name.set('supperbowen')
     result.cust_age.set(18)
     expect(result.cust_name.get()).toBe('supperbowen')
     expect(result.cust_age.get()).toBe(18)
   })
 
-  test("mapFormStates('order', [{name:'customer.name', gender:'customer.gender'}, { cname: current.name }])", () => {
+  test("mapStates('order', [{name:'customer.name', gender:'customer.gender'}, { cname: current.name }])", () => {
     formStore.install(Store({ customer: { name: 'allen', age: 22 } }))
-    const result = mapFormStates('order', [
+    const result = mapStates('order', [
       { name: 'current.customer.name', age: 'current.customer.age' },
       { cname: 'current.name' }
     ])
@@ -113,9 +113,9 @@ describe('test default mapper', () => {
     expect(result.cname.get()).toBe('bowen')
   })
 
-  test("commit:mapFormStates('order', [{name:'customer.name', gender:'customer.gender'}, { cname: current.name }])", () => {
+  test("commit:mapStates('order', [{name:'customer.name', gender:'customer.gender'}, { cname: current.name }])", () => {
     formStore.install(Store({ customer: { name: 'allen', age: 22 } }))
-    const result = mapFormStates('order', [
+    const result = mapStates('order', [
       { name: 'current.customer.name', age: 'current.customer.age' },
       { cname: 'current.name' }
     ])

@@ -17,7 +17,7 @@
     "webpack-merge": "4.1.4"
   },
   "description": "vuex state form map helper",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "./dist/vuexform.js",
   "dependencies": {
     "@babel/polyfill": "^7.2.5",

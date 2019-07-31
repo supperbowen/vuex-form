@@ -48,9 +48,8 @@ npm install --save vuexfrom
 
 ```js
 import vuexform from '@supper/vuexform'
-import store from '@/store'
 
-vuexform.install(store)
+Vue.use(vuexform)
 ```
 
 #### vuex store module 'customer.js'
@@ -83,10 +82,10 @@ export default {
 </template>
 
 <script>
-import {mapFormStates} from '@supper/vuexform'
+import {mapStates} from '@supper/vuexform'
 export default {
     computed:{
-        ...mapFormStates('customer', ['current'])        
+        ...mapStates('customer', ['current'])        
     }
 }
 </script>
@@ -105,10 +104,10 @@ export default {
 </template>
 
 <script>
-import {mapFormStates} from '@supper/vuexform'
+import {mapStates} from '@supper/vuexform'
 export default {
     computed:{
-        ...mapFormStates('customer', ['cu:current'])
+        ...mapStates('customer', ['cu:current'])
     }
 }
 </script>
@@ -129,37 +128,15 @@ export default {
 </template>
 
 <script>
-import {mapFormStates} from '@supper/vuexform'
+import {mapStates} from '@supper/vuexform'
 export default {
     computed:{
-        ...mapFormStates('customer', [{cname:'current.name', cage:'current.age'}])
+        ...mapStates('customer', [{cname:'current.name', cage:'current.age'}])
     }
 }
 </script>
 ```
 
-### 已知问题
-
-1. 必需要使用异步组件，否则在映射对象是会存在store还没有初始化的问题
-
-```js
-// 组件中
-export default {
-  name: 'app',
-  components: {
-    HelloForm: () => import('./components/Form.vue')  // 需要用异步加载的组件，包括在 vue-router 时
-  }
-};
-
-// 路由
-{
-    path: 'form',
-    component: () => import('./components/Form.vue'),
-    name: 'HelloForm'
-}
-```
-
-
 ### 计划
 
-1. 添加验证支持
+1. 添加基于vuex的表单验证支持

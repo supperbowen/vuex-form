@@ -12,14 +12,14 @@
 </template>
 
 <script>
-import { mapFormStates } from '@supper/vuexfrom';
+import { mapStates } from '../../../src/index';
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
   },
   computed: {
-    ...mapFormStates('user', ['user:current'])
+    ...mapStates('user', ['user:current'])
   }
 };
 </script>

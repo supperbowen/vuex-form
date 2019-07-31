@@ -1,4 +1,4 @@
-import { updateState } from '@supper/vuexfrom'
+import { updateState } from '../../../../src/index'
 export default {
   namespaced: true,
   state: {
